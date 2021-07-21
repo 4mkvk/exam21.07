@@ -17,9 +17,13 @@ function registrateUser(request, response) {
 }
 function postUser(request, response) {
     let username = request.body.username;
-    let img_url = request.body.img_url
+    let img_url = request.body.img_url;
+
 
     pool.query("select * from messenger_users where username = $1", [username], function (error, result) {
+        if (img_url === null || img_url === undefined || img_url === '' || img_url === ' ') {
+            img_url = 'https://i.ytimg.com/vi/i7_hHr47bZ4/maxresdefault.jpg'
+        }
         if (result.rows.length > 0) {
             response.send("Такой пользователь существует");
         } else {
