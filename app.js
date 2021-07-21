@@ -16,6 +16,7 @@ app.use(bodyParser.urlencoded({
 
 
 app.use("/registration", userRouter)
+// app.use("/message", messageRouter)
 app.use("/", homeRouter)
 app.use("/login", loginRouter)
 

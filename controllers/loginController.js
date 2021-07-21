@@ -1,5 +1,4 @@
 const { response } = require("express")
-let fs = require("fs")
 const pg = require("pg")
 
 const Pool = pg.Pool
@@ -26,11 +25,13 @@ function getId(request, response) {
             console.log("Error: " + error)
         }
 
-        else if (result.rows[0] !== null) {
-            currentUserId = result.rows[0].id
-            fs.writeFileSync("./currentUserId.txt", JSON.stringify(currentUserId) )
-            response.redirect("/")
+        if (result.rows[0] !== null) {
+            currentUserId = result.rows[0]['id']
+            response.status(200).json(currentUserId);
+        } else {
+            console.log("result rows [0] = null");
         }
+
 
 
 

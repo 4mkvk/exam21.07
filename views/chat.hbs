@@ -6,6 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/chat.css">
 </head>
 
@@ -39,21 +41,12 @@
             </div>
         </div>
         <div class="users">
-            <div class="images_wrapper">
-                <img src="/img/userImage.png" class="users_profiles" alt="">
-                <img src="/img/userImage.png" class="users_profiles" alt="">
-                <img src="/img/userImage.png" class="users_profiles" alt="">
-                <img src="/img/userImage.png" class="users_profiles" alt="">
-                <img src="/img/userImage.png" class="users_profiles" alt="">
-                <img src="/img/userImage.png" class="users_profiles" alt="">
-            </div>
-            <hr>
             <div class="wrapper-messenger">
                 <div class="chats">
                     <h1>Chats</h1>
                     <div class="chats-items">
                         {{#each usersArray }}
-                        <div class="chats__item">
+                        <div class="chats__item" onclick='openChat({{this.id}})'>
                             <div class="user_image">
                                 <img src="{{this.img_url}}" style="width: 80px; height:80px; border-radius: 15px">
                             </div>
@@ -69,56 +62,55 @@
                         <div class="message">
                             <div class="userMessages">
                                 <div class="wrapper-message__host">
-                                    <span>That`s pretty cool. I would like to eat it. What do you think about it?</span>
+                                    <span></span>
                                 </div>
                                 <div class="wrapper-message__host">
-                                    <span>This cafe is quiet simply so I fint it cool</span>
+                                    <span></span>
                                 </div>
                             </div>
                             <div class="user__image">
-                                <img src="img/userImage.png" alt="">
+                                <img src="" alt="">
                             </div>
                         </div>
                         <div class="message message_opponent">
                             <div class="user__image">
-                                <img src="img/userImage.png" alt="">
+                                <img src="" alt="">
                             </div>
                             <div class="userMessages">
                                 <div class="wrapper-message__host opponent">
-                                    <span>We must go there. I wanna eat as much as I live.</span>
+                                    <span></span>
                                 </div>
                                 <div class="wrapper-message__host opponent">
-                                    <span>This day will be legendary))</span>
+                                    <span></span>
                                 </div>
                             </div>
                         </div>
                         <div class="message">
                             <div class="userMessages">
                                 <div class="wrapper-message__host">
-                                    <span>Alright bruh, we will go there..</span>
+                                    <span></span>
                                 </div>
                             </div>
                             <div class="user__image">
-                                <img src="img/userImage.png" alt="">
+                                <img src="" alt="">
                             </div>
                         </div>
                         <div class="message message_opponent">
                             <div class="user__image">
-                                <img src="img/userImage.png" alt="">
+                                <img src="" alt="">
                             </div>
                             <div class="userMessages">
                                 <div class="wrapper-message__host opponent">
-                                    <span>See u :)</span>
+                                    <span></span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="inputMessages">
-                        <form action="/sendMessage" method="POST" style="display: flex;">
-                            <input type="text" name="message" placeholder="Write your message there">
-                            <input type="text" hidden name="user_id_from" value="{{this.currentUserId}}">
-                            <button class="btnSubmit" type="submit"><img src="img/sendMessage.png" alt=""></button>
-                        </form>
+                        <input type="text" id="message" placeholder="Write your message there">
+                        <input type="text" hidden name="user_id_from">
+                        <button class="btnSubmit" onclick="sendMsg()" type="submit"><img src="img/sendMessage.png"
+                                alt=""></button>
                     </div>
                 </div>
             </div>
@@ -126,5 +118,32 @@
     </div>
 
 </body>
+
+<script>
+    let openChatId = 0;
+
+    function openChat(id) {
+        openChatId = id;
+
+    }
+
+    function sendMsg() {
+        $.ajax({
+            url: "/sendMessage",
+            method: "POST",
+            data: {
+                message: document.getElementById("message").value,
+                user_id_from: localStorage.getItem("currentUserId"),
+                user_id_to: openChatId
+            },
+            success: function (response) {
+                console.log(response)
+            },
+            error: function () {
+                console.log("Error")
+            }
+        })
+    }
+</script>
 
 </html>

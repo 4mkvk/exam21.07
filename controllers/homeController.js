@@ -14,7 +14,6 @@ const pool = new Pool({
 })
 
 function index(request, response) {
-    let currentUserId = Number(fs.readFileSync("./currentUserId.txt"))
     pool.query("SELECT * FROM messenger_users", function (error, result) {
         if (error) {
             console.log("Error: " + error)
@@ -22,7 +21,6 @@ function index(request, response) {
 
         response.render("chat.hbs", {
             usersArray: result.rows,
-            currentUserId: currentUserId
         })
     })
 }
@@ -34,6 +32,7 @@ function chatUsers(request, response) {
 function sendMessage(request, response) {
     let message = request.body.message
     let user_id_from = request.body.user_id_from
+    let user_id_to = request.body.user_id_to
 
     let currentDate = new Date();
 
@@ -51,7 +50,7 @@ function sendMessage(request, response) {
 
     let dateTime = yy + "-" + mm + "-" + dd + " " + hours + ":" + min + ":" + sec;
 
-    pool.query("insert into messages(message, messagetime, user_id_from) values($1, $2, $3)", [message, dateTime, user_id_from], function (error, result) {
+    pool.query("insert into messages(message, messagetime, user_id_from, user_id_to) values($1, $2, $3, $4)", [message, dateTime, user_id_from, user_id_to], function (error, result) {
         if (error) {
             console.log("Error: " + error)
         }
