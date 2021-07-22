@@ -5,9 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <title>Chat with *USERNAME*</title>
     <link rel="stylesheet" href="/chat.css">
 </head>
 
@@ -40,110 +38,47 @@
                 </a>
             </div>
         </div>
-        <div class="users">
-            <div class="wrapper-messenger">
-                <div class="chats">
-                    <h1>Chats</h1>
-                    <div class="chats-items">
-                        {{#each usersArray }}
-                        <div class="chats__item" onclick='openChat({{this.id}})'>
-                            <div class="user_image">
-                                <img src="{{this.img_url}}" style="width: 80px; height:80px; border-radius: 15px">
+        <div class="wrapper-messenger">
+            <h1>Chat with: </h1>
+            <div class="messenger">
+                <div class="messages">
+                    <div class="message">
+                        <div class="userMessages">
+                            <div class="wrapper-message__host">
+                                <span>asdadasds</span>
                             </div>
-                            <div class="message_info">
-                                <p>{{ this.username }}</p>
+                            <div class="wrapper-message__host">
+                                <span>This cafe is quiet simply so I fint it cool</span>
                             </div>
                         </div>
-                        {{/each}}
+                        <div class="user__image">
+                            <img src="img/userImage.png" alt="">
+                        </div>
                     </div>
-                </div>
-                <div class="messenger">
-                    <div class="messages">
-                        <div class="message">
-                            <div class="userMessages">
-                                <div class="wrapper-message__host">
-                                    <span></span>
-                                </div>
-                                <div class="wrapper-message__host">
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div class="user__image">
-                                <img src="" alt="">
-                            </div>
+                    <div class="message message_opponent">
+                        <div class="user__image">
+                            <img src="img/userImage.png" alt="">
                         </div>
-                        <div class="message message_opponent">
-                            <div class="user__image">
-                                <img src="" alt="">
+                        <div class="userMessages">
+                            <div class="wrapper-message__host opponent">
+                                <span>We must go there. I wanna eat as much as I live.</span>
                             </div>
-                            <div class="userMessages">
-                                <div class="wrapper-message__host opponent">
-                                    <span></span>
-                                </div>
-                                <div class="wrapper-message__host opponent">
-                                    <span></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="message">
-                            <div class="userMessages">
-                                <div class="wrapper-message__host">
-                                    <span></span>
-                                </div>
-                            </div>
-                            <div class="user__image">
-                                <img src="" alt="">
-                            </div>
-                        </div>
-                        <div class="message message_opponent">
-                            <div class="user__image">
-                                <img src="" alt="">
-                            </div>
-                            <div class="userMessages">
-                                <div class="wrapper-message__host opponent">
-                                    <span></span>
-                                </div>
+                            <div class="wrapper-message__host opponent">
+                                <span>This day will be legendary))</span>
                             </div>
                         </div>
                     </div>
-                    <div class="inputMessages">
-                        <input type="text" id="message" placeholder="Write your message there">
-                        <input type="text" hidden name="user_id_from">
-                        <button class="btnSubmit" onclick="sendMsg()" type="submit"><img src="img/sendMessage.png"
-                                alt=""></button>
-                    </div>
+                </div>
+                <div class="inputMessages">
+                    <input type="text" id="message" placeholder="Write your message there">
+                    <input type="text" hidden name="user_id_from">
+                    <button class="btnSubmit" onclick="sendMsg()" type="submit"><img src="img/sendMessage.png"
+                            alt=""></button>
                 </div>
             </div>
         </div>
     </div>
 
 </body>
-
-<script>
-    let openChatId = 0;
-
-    function openChat(id) {
-        openChatId = id;
-
-    }
-
-    function sendMsg() {
-        $.ajax({
-            url: "/sendMessage",
-            method: "POST",
-            data: {
-                message: document.getElementById("message").value,
-                user_id_from: localStorage.getItem("currentUserId"),
-                user_id_to: openChatId
-            },
-            success: function (response) {
-                console.log(response)
-            },
-            error: function () {
-                console.log("Error")
-            }
-        })
-    }
-</script>
 
 </html>

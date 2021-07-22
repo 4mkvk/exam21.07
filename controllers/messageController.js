@@ -13,12 +13,15 @@ const pool = new Pool({
 })
 
 function index(request, response) {
+    let message = request.body.message
+    let user_id_from = request.body.user_id_from
+    let user_id_to = request.body.user_id_to
     pool.query("SELECT id, user_id_from, user_id_to, message, messagetime FROM public.messages where(user_id_from = $1 and user_id_to = $2) or(user_id_from = $2 and user_id_to = $1) order by messagetime asc ;", function (error, result) {
         if (error) {
             console.log("Error: " + error)
         }
 
-        response.render("chat.hbs", {
+        response.render("users.hbs", {
             usersArray: result.rows,
         })
     })

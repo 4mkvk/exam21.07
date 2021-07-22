@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/chat.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="menu">
+            <div class="logo">
+                <img src="/img/image 3.png" alt="" style="width: 148px; height:118px">
+            </div>
+            <div class="menu-items">
+                <a href="#" class="menu__item">
+                    <img src="/img/icon.png" alt="">
+                    <span>Chats</span>
+                </a>
+                <a href="#" class="menu__item">
+                    <img src="/img/iconfriends.png" alt="">
+                    <span>Friends</span>
+                </a>
+                <a href="#" class="menu__item">
+                    <img src="/img/iconfavourite.png" alt="">
+                    <span>Favourite</span>
+                </a>
+                <a href="#" class="menu__item">
+                    <img src="/img/iconsettings.png" alt="">
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="menu__item last__item">
+                    <img src="/img/iconprofile.png" alt="">
+                    <span>Profile</span>
+                </a>
+            </div>
+        </div>
+        <div class="users">
+            <div class="wrapper-messenger">
+                <div class="chats">
+                    <h1>Chats</h1>
+                    <div class="chats-items">
+                        {{#each usersArray }}
+                        <div class="chats__item" onclick='openChat({{this.id}})'>
+                            <div class="user_image">
+                                <img src="{{this.img_url}}" style="width: 80px; height:80px; border-radius: 15px">
+                            </div>
+                            <div class="message_info">
+                                <p>{{ this.username }}</p>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<script>
+    let openChatId = 0;
+
+    function openChat(id) {
+        openChatId = id;
+
+    }
+
+    function sendMsg() {
+        $.ajax({
+            url: "/sendMessage",
+            method: "POST",
+            data: {
+                message: document.getElementById("message").value,
+                user_id_from: localStorage.getItem("currentUserId"),
+                user_id_to: openChatId
+            },
+            success: function (response) {
+                console.log(response)
+            },
+            error: function () {
+                console.log("Error")
+            }
+        })
+    }
+</script>
+
+</html>
